@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                debugger;
+                alert('hi')
+                $('#sod').text('ioiu')
+                $.ajax({
+                    type: 'GET',
+                    url: "http://localhost:9000/api/data",
+                    success: function (data) {
+                        $('#sod').text(data)
+                    },
+                    error: function (jqXHR, exception,status) {
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+
+                        $('#sod').text(msg)
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
+    <br/>
+    <span id="sod"></span>
+
+</body>
+</html>
